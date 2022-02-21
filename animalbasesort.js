@@ -26,7 +26,7 @@ function start() {
   const sortButtons = document.querySelectorAll("[data-action='sort']");
 
   //add event-listeners to filter buttons and call for the next function
-  filterButtons.forEach((knap) => knap.addEventListener("click", animalFilter));
+  filterButtons.forEach((knap) => knap.addEventListener("click", animalFilterSetup));
 
   sortButtons.forEach((knap) => knap.addEventListener("click", animalSort));
 
@@ -34,11 +34,17 @@ function start() {
   loadJSON();
 }
 
+function animalFilterSetup() {
+  filter = this.dataset.filter;
+  filterFunction(filter);
+}
+
+
 //isCat function
-function isCat(animal) {
-  if (animal.type === "cat") {
-    return true;
-  } else {
+//function isCat(animal) {
+  //if (animal.type === "cat") {
+   // return true;
+/*   } else {
     return false;
   }
 }
@@ -50,36 +56,49 @@ function isDog(animal) {
   } else {
     return false;
   }
-}
+} */
 
 //all function
 function all() {
   return true;
 }
-
-function animalFilter() {
-  let filteredAnimals;
-  //get filter depending on data-filter attribute
-  filter = this.dataset.filter;
-
-  //filter allAnimals with correct filter function  and put it into filteredAnimals
-  if (filter === "*") {
-    filteredAnimals = getFilterData(all);
-  } else if (filter === "cat") {
-    filteredAnimals = getFilterData(isCat);
-  } else if (filter === "dog") {
-    filteredAnimals = getFilterData(isDog);
-  }
-  displayList(filteredAnimals);
-}
-
 function getFilterData(filterFunction) {
-  console.log("clicked");
+  //console.log("clicked");
   //filter on a criteia
-  let filteredAnimals = allAnimals.filter(filterFunction);
+let filteredAnimals = allAnimals.filter(filterFunction);
 
   return filteredAnimals;
 }
+
+function filterFunction(type) {
+ // let filteredAnimals;
+  //get filter depending on data-filter attribute
+  let filteredAnimals = allAnimals.filter(isAnimalType);
+  function isAnimalType(animal) {
+    if (filter === "*") {
+      filteredAnimals = getFilterData(all);
+    } else if (animal.type === type)
+     {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  displayList(filteredAnimals);
+}
+  //filter allAnimals with correct filter function  and put it into filteredAnimals
+  //if (filter === "*") {
+    //filteredAnimals = getFilterData(all);
+  //} else if (filter === "cat") {
+    //filteredAnimals = getFilterData(isCat);
+  //} else if (filter === "dog") {
+    //filteredAnimals = getFilterData(isDog);
+  //}
+  //displayList(filteredAnimals);
+
+
+
 
 function sortByName (a, b) {
   if (a.name < b.name) {
