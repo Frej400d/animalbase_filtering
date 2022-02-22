@@ -172,7 +172,7 @@ function prepareObjects(jsonData) {
   allAnimals = jsonData.map(createAnimal);
 
   // TODO: This might not be the function we want to call first
-  displayList(allAnimals);
+  buildList();
 }
 
 function createAnimal(jsonObject) {
@@ -215,7 +215,7 @@ function displayAnimal(animal) {
   clone.querySelector("[data-field=type]").textContent = animal.type;
   clone.querySelector("[data-field=age]").textContent = animal.age;
 
-  /*   if (animal.star === true) {
+  if (animal.star === true) {
     clone.querySelector("[data-field=star]").textContent = "⭐";
   } else {
     clone.querySelector("[data-field=star]").textContent = "☆";
@@ -224,13 +224,14 @@ function displayAnimal(animal) {
   clone.querySelector("[data-field=star]").addEventListener("click", clickStar);
 
   function clickStar() {
+    console.log("starClick");
     if (animal.star === true) {
       animal.star = false;
     } else {
       animal.star = true;
     }
     buildList();
-  } */
+  }
   // append clone to list
   document.querySelector("#list tbody").appendChild(clone);
 }
