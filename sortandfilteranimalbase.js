@@ -88,53 +88,53 @@ function getFilterData(filterFunction) {
 
 //-------sort function
 
-/* function sortByName(a, b) {
-  console.log("clicked");
-  if (a.name < b.name) {
-    return -1;
+function selectSort(event) {
+  const sortBy = event.target.dataset.sort;
+  const sortDir = event.target.dataset.sortDirection;
+
+  // find "old" sortby element, and remove .sortBy
+  const oldElement = document.querySelector(`[data-sort='${settings.sortBy}']`);
+  oldElement.classList.remove("sortby");
+
+  // indicate active sort
+  event.target.classList.add("sortby");
+
+  // toggle the direction!
+  if (sortDir === "asc") {
+    event.target.dataset.sortDirection = "desc";
   } else {
-    return 1;
+    event.target.dataset.sortDirection = "asc";
   }
+  console.log(`User selected ${sortBy} - ${sortDir}`);
+  setSort(sortBy, sortDir);
 }
 
-function sortByType(a, b) {
-  console.log("clicked");
-  if (a.type < b.type) {
-    return -1;
-  } else {
-    return 1;
-  }
+function setSort(sortBy, sortDir) {
+  settings.sortBy = sortBy;
+  settings.sortDir = sortDir;
+  buildList();
 }
 
-function sortByDesc(a, b) {
-  console.log("clicked");
-  if (a.desc < b.desc) {
-    return -1;
+function sortList(sortedList) {
+  // let sortedList = allAnimals;
+  let direction = 1;
+  if (settings.sortDir === "desc") {
+    direction = -1;
   } else {
-    return 1;
+    settings.direction = 1;
   }
-} */
 
-function animalSort() {
-  console.log("animals sort");
-  const sortBy = this.dataset.sort;
-  sortedAnimals(sortBy);
-}
+  sortedList = sortedList.sort(sortByProperty);
 
-function sortedAnimals(sortBy) {
-  let sortedList = allAnimals;
-
-  sortedList = allAnimals.sort(sortByProperty);
-  function sortByProperty(a, b) {
-    console.log("clicked");
-    if (a[sortBy] < b[sortBy]) {
-      return -1;
+  function sortByProperty(animalA, animalB) {
+    if (animalA[settings.sortBy] < animalB[settings.sortBy]) {
+      return -1 * direction;
     } else {
-      return 1;
+      return 1 * direction;
     }
   }
 
-  displayList(sortedList);
+  return sortedList;
 }
 
 async function loadJSON() {
