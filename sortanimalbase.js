@@ -29,7 +29,7 @@ function start() {
   filterButtons.forEach((knap) => knap.addEventListener("click", animalFilter));
 
   //add event-listeners to sorting buttons and call for the next function
-  sortButtons.forEach((knap) => knap.addEventListener("click", animalSort));
+  sortButtons.forEach((knap) => knap.addEventListener("click", selectSort));
 
   loadJSON();
 }
@@ -115,22 +115,37 @@ function sortByDesc(a, b) {
   }
 } */
 
-function animalSort() {
-  console.log("animals sort");
+function selectSort() {
   const sortBy = this.dataset.sort;
-  sortedAnimals(sortBy);
+  const sortDir = this.dataset.sortDirection;
+
+  //toggle the direction
+  if (sortDir === "asc") {
+    this.dataset.sortDirection = "desc";
+  } else {
+    this.dataset.sortDirection = "asc";
+  }
+
+  sortedAnimals(sortBy, sortDir);
 }
 
-function sortedAnimals(sortBy) {
+function sortedAnimals(sortBy, sortDir) {
   let sortedList = allAnimals;
+  let direction = 1;
+  if (sortDir === "desc") {
+    direction = -1;
+  } else {
+    direction = 1;
+  }
 
   sortedList = allAnimals.sort(sortByProperty);
+
   function sortByProperty(a, b) {
     console.log("clicked");
     if (a[sortBy] < b[sortBy]) {
-      return -1;
+      return -1 * direction;
     } else {
-      return 1;
+      return 1 * direction;
     }
   }
 
