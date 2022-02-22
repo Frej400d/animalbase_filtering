@@ -11,6 +11,7 @@ const Animal = {
   type: "",
   age: 0,
   star: false,
+  winner: false,
 };
 //let filterBy = "all";
 const settings = {
@@ -215,6 +216,7 @@ function displayAnimal(animal) {
   clone.querySelector("[data-field=type]").textContent = animal.type;
   clone.querySelector("[data-field=age]").textContent = animal.age;
 
+  //star
   if (animal.star === true) {
     clone.querySelector("[data-field=star]").textContent = "⭐";
   } else {
@@ -232,6 +234,21 @@ function displayAnimal(animal) {
     }
     buildList();
   }
+
+  //winner
+  clone.querySelector("[data-field=winner]").dataset.winner = animal.winner;
+  clone
+    .querySelector("[data-field=winner]")
+    .addEventListener("click", clickWinner);
+  function clickWinner() {
+    if (animal.winner === true) {
+      animal.winner = false;
+    } else {
+      animal.winner = true;
+    }
+    buildList();
+  }
+
   // append clone to list
   document.querySelector("#list tbody").appendChild(clone);
 }
